@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CRM Empresarial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div id="sidebar" class="bg-white border-r border-gray-200 w-64 flex flex-col transition-all duration-300">
+            <!-- Header -->
+            <div class="p-4 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-building text-2xl text-blue-600"></i>
+                        <span class="text-xl font-bold text-gray-900">CRM</span>
+                    </div>
+                    <button id="toggleSidebar" class="p-1.5 rounded hover:bg-gray-100">
+                        <i class="fas fa-chevron-left text-gray-600"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="flex-1 p-4">
+                <div class="space-y-2">
+                    <a href="dashboard.html" class="nav-item active flex items-center space-x-3 px-3 py-2 rounded-md">
+                        <i class="fas fa-home w-5"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="contactos.html" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-md">
+                        <i class="fas fa-users w-5"></i>
+                        <span>Contactos</span>
+                    </a>
+                    <a href="negocios.html" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-md">
+                        <i class="fas fa-briefcase w-5"></i>
+                        <span>Negocios</span>
+                    </a>
+                    <a href="compras.html" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-md">
+                        <i class="fas fa-shopping-cart w-5"></i>
+                        <span>Compras</span>
+                    </a>
+                    <a href="tickets.html" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-md">
+                        <i class="fas fa-ticket-alt w-5"></i>
+                        <span>Tickets</span>
+                    </a>
+                    <a href="configuracion.html" class="nav-item flex items-center space-x-3 px-3 py-2 rounded-md">
+                        <i class="fas fa-cog w-5"></i>
+                        <span>Configuración</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Logout -->
+            <div class="p-4 border-t border-gray-200">
+                <button id="logoutBtn" class="w-full flex items-center space-x-3 px-3 py-2 text-red-600 hover:bg-red-50 rounded-md">
+                    <i class="fas fa-sign-out-alt w-5"></i>
+                    <span>Cerrar Sesión</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header class="bg-white border-b border-gray-200 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <!-- Search -->
+                    <div class="flex-1 max-w-md">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input 
+                                type="text" 
+                                placeholder="Buscar contactos, negocios, tickets..."
+                                class="pl-10 pr-4 py-2 w-full bg-gray-50 border-0 rounded-md focus:bg-white focus:ring-2 focus:ring-blue-500"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- User Menu -->
+                    <div class="flex items-center space-x-4">
+                        <button class="relative p-2 text-gray-600 hover:bg-gray-100 rounded-full">
+                            <i class="fas fa-bell"></i>
+                            <span class="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">3</span>
+                        </button>
+                        
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-medium" id="userInitials">A</span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900" id="userName">Administrador CRM</p>
+                                <p class="text-xs text-gray-500" id="userEmail">admin@crm.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Welcome Section -->
+                    <div class="mb-8">
+                        <h1 class="text-3xl font-bold text-gray-900 mb-2">Bienvenido, <span id="welcomeName">Administrador</span></h1>
+                        <p class="text-gray-600">Aquí tienes un resumen de tu actividad empresarial</p>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white rounded-lg shadow-sm p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Total Contactos</p>
+                                    <p class="text-2xl font-bold text-gray-900">1,247</p>
+                                    <p class="text-xs text-green-600 flex items-center mt-1">
+                                        <i class="fas fa-arrow-up mr-1"></i>
+                                        +12% desde el mes pasado
+                                    </p>
+                                </div>
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-users text-blue-600"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Negocios Activos</p>
+                                    <p class="text-2xl font-bold text-gray-900">89</p>
+                                    <p class="text-xs text-green-600 flex items-center mt-1">
+                                        <i class="fas fa-arrow-up mr-1"></i>
+                                        +8% desde el mes pasado
+                                    </p>
+                                </div>
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-briefcase text-green-600"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Tickets Abiertos</p>
+                                    <p class="text-2xl font-bold text-gray-900">23</p>
+                                    <p class="text-xs text-orange-600 flex items-center mt-1">
+                                        <i class="fas fa-exclamation-circle mr-1"></i>3 críticos
+                                    </p>
+                                </div>
+                                <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-ticket-alt text-orange-600"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Ingresos del Mes</p>
+                                    <p class="text-2xl font-bold text-gray-900">€125,000</p>
+                                    <p class="text-xs text-green-600 flex items-center mt-1">
+                                        <i class="fas fa-arrow-up mr-1"></i>
+                                        +15% desde el mes pasado
+                                    </p>
+                                </div>
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-euro-sign text-green-600"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activities & Quick Actions -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-lg shadow-sm">
+                            <div class="p-6 border-b border-gray-200">
+                                <h3 class="text-lg font-semibold text-gray-900">Actividad Reciente</h3>
+                                <p class="text-gray-600">Últimas acciones en tu CRM</p>
+                            </div>
+                            <div class="p-6">
+                                <div class="space-y-4" id="recentActivities">
+                                    <!-- Activities will be loaded by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm">
+                            <div class="p-6 border-b border-gray-200">
+                                <h3 class="text-lg font-semibold text-gray-900">Acciones Rápidas</h3>
+                                <p class="text-gray-600">Accede rápidamente a las funciones principales</p>
+                            </div>
+                            <div class="p-6">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <a href="contactos.html" class="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                                        <i class="fas fa-users text-2xl text-blue-600 mb-2"></i>
+                                        <span class="text-sm font-medium">Nuevo Contacto</span>
+                                    </a>
+
+                                    <a href="negocios.html" class="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                                        <i class="fas fa-briefcase text-2xl text-green-600 mb-2"></i>
+                                        <span class="text-sm font-medium">Nuevo Negocio</span>
+                                    </a>
+
+                                    <a href="tickets.html" class="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                                        <i class="fas fa-ticket-alt text-2xl text-orange-600 mb-2"></i>
+                                        <span class="text-sm font-medium">Crear Ticket</span>
+                                    </a>
+
+                                    <a href="compras.html" class="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                                        <i class="fas fa-shopping-cart text-2xl text-purple-600 mb-2"></i>
+                                        <span class="text-sm font-medium">Nueva Compra</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
